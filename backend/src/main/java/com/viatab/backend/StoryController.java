@@ -22,4 +22,10 @@ public class StoryController {
     public Story createStory(@RequestBody Story story) {
         return storyRepository.save(story);
     }
+
+    @DeleteMapping("/{id}")
+public void deleteStory(@PathVariable Long id) {
+    storyRepository.deleteById(id);
+}
+
 }
