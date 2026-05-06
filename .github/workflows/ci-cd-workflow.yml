@@ -27,16 +27,16 @@ jobs:
         run: docker build -t devops-assignment-frontend:latest ./frontend
 
       - name: Load backend image into Minikube
-        run: minikube image load devops-assignment-backend:latest
+        run: wsl minikube image load devops-assignment-backend:latest
 
       - name: Load frontend image into Minikube
-        run: minikube image load devops-assignment-frontend:latest
+        run: wsl minikube image load devops-assignment-frontend:latest
 
       - name: Apply Kubernetes files
-        run: kubectl apply -f k8s/
+        run: wsl bash -lc "cd /mnt/c/actions-runner/_work/Devops-Viatab/Devops-Viatab && kubectl apply -f k8s/"
 
       - name: Restart backend deployment
-        run: kubectl rollout restart deployment viatab-backend
+        run: wsl kubectl rollout restart deployment viatab-backend
 
       - name: Restart frontend deployment
-        run: kubectl rollout restart deployment viatab-frontend
+        run: wsl kubectl rollout restart deployment viatab-frontend
