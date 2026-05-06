@@ -1,5 +1,6 @@
 name: CI/CD Pipeline
 
+
 on:
   push:
     branches:
@@ -39,4 +40,4 @@ jobs:
         run: wsl kubectl rollout restart deployment viatab-backend
 
       - name: Restart frontend deployment
-        run: wsl kubectl rollout restart deployment viatab-frontend
+        run: wsl kubectl rollout restart deployment viatab-frontend 
