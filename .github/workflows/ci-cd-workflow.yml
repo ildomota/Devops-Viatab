@@ -14,9 +14,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build backend jar
-        working-directory: backend
-        run: .\mvnw clean package -DskipTests
-        shell: powershell
+      - working-directory: backend
+      - run: cmd /c mvnw.cmd clean package -DskipTests
 
       - name: Build backend Docker image
         run: docker build -t devops-assignment-backend:latest ./backend
