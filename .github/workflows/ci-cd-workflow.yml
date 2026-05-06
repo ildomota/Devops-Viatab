@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build backend jar
+        working-directory: backend
+        run: .\mvnw clean package -DskipTests
+        shell: powershell
+
+      - name: Build backend Docker image
+        run: docker build -t devops-assignment-backend:latest ./backend
+
+      - name: Build frontend Docker image
+        run: docker build -t devops-assignment-frontend:latest ./frontend
+
+      - name: Load backend image into Minikube
+        run: minikube image load devops-assignment-backend:latest
+
+      - name: Load frontend image into Minikube
+        run: minikube image load devops-assignment-frontend:latest
+
+      - name: Apply Kubernetes files
+        run: kubectl apply -f k8s/
+
+      - name: Restart backend deployment
+        run: kubectl rollout restart deployment viatab-backend
+
+      - name: Restart frontend deployment
+        run: kubectl rollout restart deployment viatab-frontend
